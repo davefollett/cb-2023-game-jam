@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - seeker
+  - crate
+  - top-wall
+  - bottom-wall
+  - right-wall
+  - left-wall
+  - player
   layers:
   - Default
   - TransparentFX

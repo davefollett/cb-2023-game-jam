@@ -6,6 +6,7 @@ public class PlayerCollision : MonoBehaviour
 {
 
     private bool alive = true;
+    public AudioSource win;
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +27,14 @@ public class PlayerCollision : MonoBehaviour
             // Destroy(collision.gameObject);
             // Debug.Log("hit");
             alive = false;
+            win.Play();
         }
-        
+        else
+        {
+            Debug.Log(collision.gameObject);
+        }
     }
-
+     
     public bool isAlive()
     {
         return alive;
