@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Vector3 originalPos;
+    Vector2 originalPos;
+    Vector2 lastPos;
+    private bool moving = false;
 
     // Start is called before the first frame update
     void Start()
     {
         originalPos = transform.position;
+        moving = false;
     }
 
     // Update is called once per frame
@@ -32,11 +35,29 @@ public class PlayerMovement : MonoBehaviour
                 Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 720 * Time.deltaTime);
             }
+
+            if (position == lastPos)
+            {
+                moving = false;
+            } else
+            {
+                moving = true;
+            }
+
+            lastPos = position;
+        } else
+        {
+            moving = false;
         }
     }
 
     public void restart()
     {
         transform.position = originalPos;
+    }
+
+    public bool isMoving()
+    {
+        return moving;
     }
 }

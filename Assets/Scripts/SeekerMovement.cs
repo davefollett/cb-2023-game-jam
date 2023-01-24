@@ -6,7 +6,7 @@ public class SeekerMovement : MonoBehaviour
 {
     public GameObject player;
     private bool moving = false;
-    Vector3 originalPos;
+    Vector2 originalPos;
     public AudioSource warp;
     public AudioSource flying;
     public AudioSource bump;
@@ -14,17 +14,25 @@ public class SeekerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        originalPos = transform.position;
-        //audioSrc = GetComponent<AudioSource>();
-        //flying.Play();
+        //originalPos = transform.position;
+        warpSeeker();
+        //stopMoving();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if (!player.GetComponent<PlayerMovement>().isMoving())
+        //{
+        //    stopMoving();
+        //} else
+        //{
+        //    startMoving();
+        //}
+
         if (moving)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -1 * 1.5f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -1 * 1.8f * Time.deltaTime);
             Vector2 movementDirection = (player.transform.position - transform.position) * -1;
             movementDirection.Normalize();
 
@@ -44,12 +52,13 @@ public class SeekerMovement : MonoBehaviour
             || collision.gameObject.tag == "right-wall")
         {
             //Debug.Log("hit wall");
-            float spawnY = Random.Range
-                (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y, Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
-            float spawnX = Random.Range
-                (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
-            Vector2 spawnPosition = new Vector2(spawnX, spawnY);
-            transform.position = spawnPosition;
+            //float spawnY = Random.Range
+            //    (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y, Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
+            //float spawnX = Random.Range
+            //    (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+            //Vector2 spawnPosition = new Vector2(spawnX, spawnY);
+            //transform.position = spawnPosition;
+            warpSeeker();
             warp.Play();
         }
 
@@ -60,7 +69,7 @@ public class SeekerMovement : MonoBehaviour
 
         if (collision.gameObject.tag == "player")
         {
-            this.stopMoving();
+            stopMoving();
         }
     }
     public void stopMoving()
@@ -69,10 +78,27 @@ public class SeekerMovement : MonoBehaviour
         flying.Stop();
     }
 
+    public void startMoving()
+    {
+        moving = true;
+        //flying.Play();
+    }
+
     public void restart()
     {
-        transform.position = originalPos;
+        warpSeeker();
+        //transform.position = originalPos;
         moving = true;
         flying.Play();
+    }
+
+    public void warpSeeker()
+    {
+        float spawnY = Random.Range
+                (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y, Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
+        float spawnX = Random.Range
+            (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+        Vector2 spawnPosition = new Vector2(spawnX, spawnY);
+        transform.position = spawnPosition;
     }
 }

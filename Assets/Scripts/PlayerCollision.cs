@@ -29,10 +29,6 @@ public class PlayerCollision : MonoBehaviour
             alive = false;
             win.Play();
         }
-        else
-        {
-            Debug.Log(collision.gameObject);
-        }
     }
      
     public bool isAlive()

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject seeker;
     public Text timeText;
+    public AudioSource bgMusic;
 
     private float time = 0.0f;
     private bool running = false;
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        bgMusic.Play();
     }
 
     // Update is called once per frame
@@ -26,6 +27,11 @@ public class GameManager : MonoBehaviour
             time += Time.deltaTime;
             setTimeText();
         }
+
+        //if(!running)
+        //{
+        //    bgMusic.Stop();
+        //}
     }
 
     public void startRunning()
@@ -36,6 +42,7 @@ public class GameManager : MonoBehaviour
         seeker.GetComponent<SeekerMovement>().restart();
         player.GetComponent<PlayerCollision>().restart();
         player.GetComponent<PlayerMovement>().restart();
+        //bgMusic.Play();
     }
 
     public void setTimeText()
